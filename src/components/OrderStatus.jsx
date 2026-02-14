@@ -10,7 +10,7 @@ import {
 } from "./ui/card";
 import { CheckCircle2, Clock, Truck, Package } from "lucide-react";
 import { Button } from "./ui/button";
-
+import { useNavigate } from "react-router-dom";
 const statusConfig = {
   "Order Received": {
     icon: Package,
@@ -39,7 +39,7 @@ const OrderStatus = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     let intervalId = null;
 
