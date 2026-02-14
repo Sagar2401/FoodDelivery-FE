@@ -62,10 +62,13 @@ const Menu = () => {
     fetchMenu();
   }, [selectedCategory, searchTerm]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearchTerm(searchInput.trim());
-  };
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearchTerm(searchInput.trim());
+    }, 400);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchInput]);
 
   // Sort and filter menu items
   const sortedAndFilteredItems = useMemo(() => {
@@ -94,7 +97,7 @@ const Menu = () => {
       <h1 className="text-3xl font-bold mb-8">Our Menu</h1>
 
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center md:justify-between mb-6">
-        <form onSubmit={handleSearch} className="flex flex-1 max-w-md">
+        <div className="flex flex-1 max-w-md">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
@@ -105,10 +108,7 @@ const Menu = () => {
               className="pl-9"
             />
           </div>
-          <Button type="submit" variant="secondary" className="ml-2">
-            Search
-          </Button>
-        </form>
+        </div>
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
           <div className="flex items-center gap-2">
             <label
