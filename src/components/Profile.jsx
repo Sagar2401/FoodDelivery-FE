@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { authService } from '../services/api';
-import { orderService } from '../services/api';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { User, Package, Edit2, Save, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { authService } from "../services/api";
+import { orderService } from "../services/api";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { User, Package, Edit2, Save, X } from "lucide-react";
 
 const Profile = () => {
   const { user, updateUser } = useAuth();
@@ -18,31 +18,26 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
   });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
     const fetchProfile = async () => {
       try {
         const response = await authService.getProfile();
         const userData = response.data;
         setFormData({
-          name: userData.name || '',
-          email: userData.email || '',
-          phone: userData.phone || '',
-          address: userData.address || '',
+          name: userData.name || "",
+          email: userData.email || "",
+          phone: userData.phone || "",
+          address: userData.address || "",
         });
       } catch (err) {
-        setError(err.response?.data?.error || 'Failed to load profile');
+        setError(err.response?.data?.error || "Failed to load profile");
       } finally {
         setLoading(false);
       }
@@ -53,7 +48,7 @@ const Profile = () => {
         const response = await orderService.getHistory();
         setOrders(response.data);
       } catch (err) {
-        console.error('Failed to load orders:', err);
+        console.error("Failed to load orders:", err);
       } finally {
         setOrdersLoading(false);
       }
@@ -83,7 +78,7 @@ const Profile = () => {
       updateUser(response.data);
       setIsEditing(false);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to update profile');
+      setError(err.response?.data?.error || "Failed to update profile");
     } finally {
       setSaving(false);
     }
@@ -91,10 +86,10 @@ const Profile = () => {
 
   const handleCancel = () => {
     setFormData({
-      name: user?.name || '',
-      email: user?.email || '',
-      phone: user?.phone || '',
-      address: user?.address || '',
+      name: user?.name || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      address: user?.address || "",
     });
     setIsEditing(false);
     setError(null);
@@ -182,9 +177,7 @@ const Profile = () => {
                   placeholder="123 Main St, City, State"
                 />
               </div>
-              {error && (
-                <div className="text-red-500 text-sm">{error}</div>
-              )}
+              {error && <div className="text-red-500 text-sm">{error}</div>}
               {isEditing && (
                 <div className="flex gap-2 pt-2">
                   <Button
@@ -193,7 +186,7 @@ const Profile = () => {
                     className="flex-1"
                   >
                     <Save className="h-4 w-4 mr-2" />
-                    {saving ? 'Saving...' : 'Save Changes'}
+                    {saving ? "Saving..." : "Save Changes"}
                   </Button>
                   <Button
                     variant="outline"
@@ -227,7 +220,7 @@ const Profile = () => {
               <div className="text-center py-8">
                 <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-500 mb-4">No orders yet</p>
-                <Button onClick={() => navigate('/')} variant="outline">
+                <Button onClick={() => navigate("/")} variant="outline">
                   Browse Menu
                 </Button>
               </div>
@@ -241,23 +234,34 @@ const Profile = () => {
                   >
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold">Order #{order._id.slice(-8)}</p>
+                        <p className="font-semibold">
+                          Order #{order._id.slice(-8)}
+                        </p>
                         <p className="text-sm text-gray-500">
                           {new Date(order.createdAt).toLocaleDateString()}
                         </p>
                       </div>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        order.status === 'Delivered' ? 'bg-green-100 text-green-700' :
-                        order.status === 'Out for Delivery' ? 'bg-orange-100 text-orange-700' :
-                        order.status === 'Preparing' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-blue-100 text-blue-700'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded text-xs font-medium ${
+                          order.status === "Delivered"
+                            ? "bg-green-100 text-green-700"
+                            : order.status === "Out for Delivery"
+                              ? "bg-orange-100 text-orange-700"
+                              : order.status === "Preparing"
+                                ? "bg-yellow-100 text-yellow-700"
+                                : "bg-blue-100 text-blue-700"
+                        }`}
+                      >
                         {order.status}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">
-                        {order.items.reduce((sum, item) => sum + item.quantity, 0)} items
+                        {order.items.reduce(
+                          (sum, item) => sum + item.quantity,
+                          0,
+                        )}{" "}
+                        items
                       </span>
                       <span className="font-bold text-green-600">
                         ${order.totalAmount.toFixed(2)}
