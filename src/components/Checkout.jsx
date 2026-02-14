@@ -58,7 +58,6 @@ const Checkout = () => {
       };
 
       const response = await orderService.create(orderData);
-      console.log("Order created", response.data);
       navigate(`/order/${response.data._id}`);
       clearCart();
     } catch (err) {

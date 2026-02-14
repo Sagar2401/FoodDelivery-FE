@@ -15,7 +15,6 @@ const Cart = () => {
   } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
-  console.log("user", user);
 
   const handleCheckout = () => {
     if (!user) {
